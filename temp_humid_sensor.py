@@ -8,16 +8,16 @@ data = []
 
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(29,GPIO.OUT)
-GPIO.output(29,GPIO.HIGH)
+GPIO.setup(21,GPIO.OUT)
+GPIO.output(21,GPIO.HIGH)
 time.sleep(0.025)
-GPIO.output(29,GPIO.LOW)
+GPIO.output(21,GPIO.LOW)
 time.sleep(0.02)
 
-GPIO.setup(29, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 for i in range(0,500):
-    data.append(GPIO.input(29))
+    data.append(GPIO.input(21))
 
 bit_count = 0
 tmp = 0
