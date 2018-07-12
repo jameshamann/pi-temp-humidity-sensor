@@ -31,7 +31,7 @@ parser.add_argument("-id", "--clientId", action="store", dest="clientId", defaul
 parser.add_argument("-t", "--topic", action="store", dest="topic", default="sdk/test/Python", help="Targeted topic")
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
-parser.add_argument("-M", "--message", action="store", dest="message", default="Hello World!",
+parser.add_argument("-M", "--message", action="store", dest="message", default=humidity, temperature = Adafruit_DHT.read_retry(11, 4),
                     help="Message to publish")
 
 args = parser.parse_args()
