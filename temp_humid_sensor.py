@@ -32,7 +32,7 @@ parser.add_argument("-id", "--clientId", action="store", dest="clientId", defaul
 parser.add_argument("-t", "--topic", action="store", dest="topic", default="sdk/test/Python", help="Targeted topic")
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
-parser.add_argument("-M", "--message", action="store", dest="message", default='Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity)
+parser.add_argument("-M", "--message", action="store", dest="message", default="Temp: {0:0.1f} C  Humidity: {1:0.1f} %".format(temperature, humidity),
                     help="Message to publish")
 
 args = parser.parse_args()
@@ -108,8 +108,5 @@ while True:
             print('Published topic %s: %s\n' % (topic, messageJson))
         loopCount += 1
     time.sleep(1)
-while True:
-
-    humidity, temperature = Adafruit_DHT.read_retry(11, 4)
 
     print 'Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity)
