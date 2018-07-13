@@ -103,7 +103,7 @@ while True:
         message = {}
         message['data'] = args.data
         message['sequence'] = loopCount
-        message['id'] = uuid.uuid1()
+        message['id'] = str(uuid.uuid1())
         messageJson = json.dumps(message)
         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
         if args.mode == 'publish':
