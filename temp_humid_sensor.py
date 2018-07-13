@@ -5,6 +5,7 @@ import logging
 import time
 import argparse
 import json
+import uuid
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
@@ -34,6 +35,9 @@ parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
 parser.add_argument("-M", "--message", action="store", dest="message", default="Temp: {0:0.1f} C  Humidity: {1:0.1f} %".format(temperature, humidity),
                     help="Message to publish")
+parser.add_argument("-M", "--message", action="store", dest="message", default=uuid.uuid1()
+                    help="Message to publish")
+
 
 args = parser.parse_args()
 host = args.host
