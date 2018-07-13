@@ -34,7 +34,7 @@ parser.add_argument("-t", "--topic", action="store", dest="topic", default="temp
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
 parser.add_argument("-M", "--message", action="store", dest="data", default="Temp: {0:0.1f} C  Humidity: {1:0.1f} %".format(temperature, humidity),
-                    help="Message to publish")
+                    help="Data to Send")
 
 args = parser.parse_args()
 host = args.host
@@ -101,7 +101,7 @@ loopCount = 0
 while True:
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
-        message['message'] = args.message
+        message['data'] = args.data
         message['sequence'] = loopCount
         message['id'] = uuid.uuid1()
         messageJson = json.dumps(message)
