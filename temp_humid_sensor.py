@@ -101,7 +101,6 @@ loopCount = 0
 while True:
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
-        message['data'] = args.data
         message['sequence'] = loopCount
         message['id'] = str(uuid.uuid1())
         message['temp'] = temperature
