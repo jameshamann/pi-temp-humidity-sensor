@@ -104,8 +104,8 @@ while True:
         message['data'] = args.data
         message['sequence'] = loopCount
         message['id'] = str(uuid.uuid1())
-        message['temp'] = 0:0.1f.format(temperature)
-        message['humidity'] = 0:0.1f.format(humidity)
+        message['temp'] = temperature
+        message['humidity'] = humidity
         messageJson = json.dumps(message)
         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
         if args.mode == 'publish':
