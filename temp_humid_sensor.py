@@ -103,7 +103,7 @@ while True:
         message = {}
         message['sequence'] = loopCount
         message['id'] = str(uuid.uuid1())
-        message['temp'] = temperature.format
+        message['temp'] = temperature
         message['humidity'] = humidity
         messageJson = json.dumps(message)
         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
