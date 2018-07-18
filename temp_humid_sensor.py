@@ -32,8 +32,6 @@ parser.add_argument("-id", "--clientId", action="store", dest="clientId", defaul
 parser.add_argument("-t", "--topic", action="store", dest="topic", default="temp_and_humidity", help="Targeted topic")
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
-parser.add_argument("-M", "--message", action="store", dest="data", default="Temp: {0:0.1f} C  Humidity: {1:0.1f} %".format(temperature, humidity),
-                    help="Data to Send")
 
 args = parser.parse_args()
 host = args.host
