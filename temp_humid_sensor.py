@@ -6,6 +6,7 @@ import time
 import argparse
 import json
 import uuid
+import datetime
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
@@ -96,6 +97,7 @@ time.sleep(2)
 # Publish to the same topic in a loop forever
 loopCount = 0
 while True:
+    ts = time.time()
     humidity, temperature = Adafruit_DHT.read_retry(11, 4)
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
@@ -103,6 +105,7 @@ while True:
         message['id'] = str(uuid.uuid1())
         message['temp'] = temperature
         message['humidity'] = humidity
+        message['timestamp'] = ts
         messageJson = json.dumps(message)
         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
         if args.mode == 'publish':
