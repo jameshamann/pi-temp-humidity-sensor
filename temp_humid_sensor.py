@@ -19,7 +19,6 @@ def customCallback(client, userdata, message):
 
 
 # Read in command-line parameters
-humidity, temperature = Adafruit_DHT.read_retry(11, 4)
 parser = argparse.ArgumentParser()
 parser.add_argument("-e", "--endpoint", action="store", required=True, dest="host", help="Your AWS IoT custom endpoint")
 parser.add_argument("-r", "--rootCA", action="store", required=True, dest="rootCAPath", help="Root CA file path")
@@ -99,11 +98,12 @@ time.sleep(2)
 # Publish to the same topic in a loop forever
 loopCount = 0
 while True:
+    humidity, temperature = Adafruit_DHT.read_retry(11, 4)
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
         message['sequence'] = loopCount
         message['id'] = str(uuid.uuid1())
-        message['temp'] = temperature
+        message['temp'] = temperature.format
         message['humidity'] = humidity
         messageJson = json.dumps(message)
         myAWSIoTMQTTClient.publish(topic, messageJson, 1)
