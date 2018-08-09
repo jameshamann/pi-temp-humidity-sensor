@@ -1,67 +1,117 @@
-#defining the RPi's pins as Input / Output
+#Program asks for user input to determine color to shine.
+
+import time, sys
 import RPi.GPIO as GPIO
 
-#importing the library for delaying command.
-import time
+redPin = 11   #Set to appropriate GPIO
+greenPin = 12 #Should be set in the
+bluePin = 13  #GPIO.BOARD format
 
-#used for GPIO numbering
-GPIO.setmode(GPIO.BCM)
+def blink(pin):
+    GPIO.setmode(GPIO.BOARD)
 
-#closing the warnings when you are compiling the code
-GPIO.setwarnings(False)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
 
-RUNNING = True
+def turnOff(pin):
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
 
-#defining the pins
-green = 11
-red = 12
-blue = 13
+def redOn():
+    blink(redPin)
 
-#defining the pins as output
-GPIO.setup(red, GPIO.OUT)
-GPIO.setup(green, GPIO.OUT)
-GPIO.setup(blue, GPIO.OUT)
+def redOff():
+    turnOff(redPin)
 
-#choosing a frequency for pwm
-Freq = 100
+def greenOn():
+    blink(greenPin)
 
-#defining the pins that are going to be used with PWM
-RED = GPIO.PWM(red, Freq)
-GREEN = GPIO.PWM(green, Freq)
-BLUE = GPIO.PWM(blue, Freq)
+def greenOff():
+    turnOff(greenPin)
 
-try:
-	#we are starting with the loop
-	while RUNNING:
-		#lighting up the pins. 100 means giving 100% to the pin
-		RED.start(100)
-		GREEN.start(1)
-		BLUE.start(1)
-		#For anode RGB LED users, if you want to start with RED too the only thing to be done is defining RED as one and GREEN and BLUE as 100.
+def blueOn():
+    blink(bluePin)
 
-			for x in range(1,101):
-				# for changing the width of PWM, this command is used
-				GREEN.ChangeDutyCycle(x)
- 				#for anode LED users, just change x with 101-x
+def blueOff():
+    turnOff(bluePin)
 
-				# and for delay time.sleep is used. You can chance the duration of the colors with changing the time from here
-				time.sleep(0.05)
+def yellowOn():
+    blink(redPin)
+    blink(greenPin)
 
-			for x in range(1,101):
+def yellowOff():
+    turnOff(redPin)
+    turnOff(greenPin)
 
-				RED.ChangeDutyCycle(101-x)
-				time.sleep(0.025)
+def cyanOn():
+    blink(greenPin)
+    blink(bluePin)
 
-			for x in range(1,101)
-				GREEN.ChangeDutyCycle(101-x)
-				BLUE.ChangeDutyCycle(x)
-				time.sleep(0.025)
+def cyanOff():
+    turnOff(greenPin)
+    turnOff(bluePin)
 
-			for x in range(1,101):
-				RED.ChangeDutyCycle(x)
-				time.sleep(0.025)
+def magentaOn():
+    blink(redPin)
+    blink(bluePin)
 
-	except KeyboardInterrupt:
-		# the purpose of this part is, when you interrupt the code, it will stop the while loop and turn off the pins, which means your LED won't light anymore
-		RUNNING = False
-		GPIO.cleanup()
+def magentaOff():
+    turnOff(redPin)
+    turnOff(bluePin)
+
+def whiteOn():
+    blink(redPin)
+    blink(greenPin)
+    blink(bluePin)
+
+def whiteOff():
+    turnOff(redPin)
+    turnOff(greenPin)
+    turnOff(bluePin)
+
+print("""Ensure the following GPIO connections: R-11, G-13, B-15
+Colors: Red, Green, Blue, Yellow, Cyan, Magenta, and White
+Use the format: color on/color off""")
+
+def main():
+    while True:
+        cmd = raw_input("-->")
+
+
+        if cmd == "red on":
+            redOn()
+        elif cmd == "red off":
+            redOff()
+        elif cmd == "green on":
+            greenOn()
+        elif cmd == "green off":
+            greenOff()
+        elif cmd == "blue on":
+            blueOn()
+        elif cmd == "blue off":
+            blueOff()
+        elif cmd == "yellow on":
+            yellowOn()
+        elif cmd == "yellow off":
+            yellowOff()
+        elif cmd == "cyan on":
+            cyanOn()
+        elif cmd == "cyan off":
+            cyanOff()
+        elif cmd == "magenta on":
+            magentaOn()
+        elif cmd == "magenta off":
+            magentaOff()
+        elif cmd == "white on":
+            whiteOn()
+        elif cmd == "white off":
+            whiteOff()
+        else:
+            print("Not a valid command")
+
+
+    return
+
+
+main()
