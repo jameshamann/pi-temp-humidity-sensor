@@ -11,7 +11,7 @@ import datetime
 AllowedActions = ['both', 'publish', 'subscribe']
 
 # Custom MQTT message callback
-def customCallback(client, userdata, message):
+def waterFlowControl(client, userdata, message):
     print("Received a new message: ")
     print(message.payload)
     print("from topic: ")
@@ -91,7 +91,7 @@ myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 # Connect and subscribe to AWS IoT
 myAWSIoTMQTTClient.connect()
 if args.mode == 'both' or args.mode == 'subscribe':
-    myAWSIoTMQTTClient.subscribe(topic, 1, customCallback)
+    myAWSIoTMQTTClient.subscribe("water_flow_status", 1, waterFlowControl)
 time.sleep(2)
 
 # Publish to the same topic in a loop forever
