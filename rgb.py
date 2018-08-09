@@ -1,117 +1,47 @@
-#Program asks for user input to determine color to shine.
-
-import time, sys
 import RPi.GPIO as GPIO
+import time
 
-redPin = 19   #Set to appropriate GPIO
-greenPin = 20 #Should be set in the
-bluePin = 21 #GPIO.BOARD format
+colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
+pins = {'pin_R':11, 'pin_G':12, 'pin_B':13}  # pins is a dict
 
-def blink(pin):
-    GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
+for i in pins:
+	GPIO.setup(pins[i], GPIO.OUT)   # Set pins' mode is output
+	GPIO.output(pins[i], GPIO.HIGH) # Set pins to high(+3.3V) to off led
 
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)
+p_R = GPIO.PWM(pins['pin_R'], 2000)  # set Frequece to 2KHz
+p_G = GPIO.PWM(pins['pin_G'], 2000)
+p_B = GPIO.PWM(pins['pin_B'], 5000)
 
-def turnOff(pin):
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
+p_R.start(0)      # Initial duty Cycle = 0(leds off)
+p_G.start(0)
+p_B.start(0)
 
-def redOn():
-    blink(redPin)
+def map(x, in_min, in_max, out_min, out_max):
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-def redOff():
-    turnOff(redPin)
+def setColor(col):   # For example : col = 0x112233
+	R_val = (col & 0xff0000) >> 16
+	G_val = (col & 0x00ff00) >> 8
+	B_val = (col & 0x0000ff) >> 0
 
-def greenOn():
-    blink(greenPin)
+	R_val = map(R_val, 0, 255, 0, 100)
+	G_val = map(G_val, 0, 255, 0, 100)
+	B_val = map(B_val, 0, 255, 0, 100)
 
-def greenOff():
-    turnOff(greenPin)
+	p_R.ChangeDutyCycle(R_val)     # Change duty cycle
+	p_G.ChangeDutyCycle(G_val)
+	p_B.ChangeDutyCycle(B_val)
 
-def blueOn():
-    blink(bluePin)
-
-def blueOff():
-    turnOff(bluePin)
-
-def yellowOn():
-    blink(redPin)
-    blink(greenPin)
-
-def yellowOff():
-    turnOff(redPin)
-    turnOff(greenPin)
-
-def cyanOn():
-    blink(greenPin)
-    blink(bluePin)
-
-def cyanOff():
-    turnOff(greenPin)
-    turnOff(bluePin)
-
-def magentaOn():
-    blink(redPin)
-    blink(bluePin)
-
-def magentaOff():
-    turnOff(redPin)
-    turnOff(bluePin)
-
-def whiteOn():
-    blink(redPin)
-    blink(greenPin)
-    blink(bluePin)
-
-def whiteOff():
-    turnOff(redPin)
-    turnOff(greenPin)
-    turnOff(bluePin)
-
-print("""Ensure the following GPIO connections: R-11, G-13, B-15
-Colors: Red, Green, Blue, Yellow, Cyan, Magenta, and White
-Use the format: color on/color off""")
-
-def main():
-    while True:
-        cmd = raw_input("-->")
-
-
-        if cmd == "red on":
-            redOn()
-        elif cmd == "red off":
-            redOff()
-        elif cmd == "green on":
-            greenOn()
-        elif cmd == "green off":
-            greenOff()
-        elif cmd == "blue on":
-            blueOn()
-        elif cmd == "blue off":
-            blueOff()
-        elif cmd == "yellow on":
-            yellowOn()
-        elif cmd == "yellow off":
-            yellowOff()
-        elif cmd == "cyan on":
-            cyanOn()
-        elif cmd == "cyan off":
-            cyanOff()
-        elif cmd == "magenta on":
-            magentaOn()
-        elif cmd == "magenta off":
-            magentaOff()
-        elif cmd == "white on":
-            whiteOn()
-        elif cmd == "white off":
-            whiteOff()
-        else:
-            print("Not a valid command")
-
-
-    return
-
-
-main()
+try:
+	while True:
+		for col in colors:
+			setColor(col)
+			time.sleep(0.5)
+except KeyboardInterrupt:
+	p_R.stop()
+	p_G.stop()
+	p_B.stop()
+	for i in pins:
+		GPIO.output(pins[i], GPIO.HIGH)    # Turn off all leds
+	GPIO.cleanup()
