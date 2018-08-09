@@ -89,9 +89,9 @@ def waterFlowControl(client, userdata, message):
     print("from topic: ")
     print(message.topic)
     print("--------------\n\n")
-    if message["water_flow_status"] == "on":
+    if message.payload["water_flow_status"] == "on":
         yellowOn()
-    elif message["water_flow_status"] == "off":
+    elif message.payload["water_flow_status"] == "off":
         yellowOff()
 
 
