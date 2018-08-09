@@ -3,9 +3,9 @@
 import time, sys
 import RPi.GPIO as GPIO
 
-redPin = 19   #Set to appropriate GPIO
-greenPin = 20 #Should be set in the
-bluePin = 21 #GPIO.BOARD format
+redPin = 11   #Set to appropriate GPIO
+greenPin = 12 #Should be set in the
+bluePin = 13 #GPIO.BOARD format
 
 def blink(pin):
     GPIO.setmode(GPIO.BOARD)
