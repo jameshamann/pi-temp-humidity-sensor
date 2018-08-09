@@ -85,14 +85,15 @@ Use the format: color on/color off""")
 # Custom MQTT message callback
 def waterFlowControl(client, userdata, message):
     print("Received a new message: ")
-    print(message.payload)
+
     print("from topic: ")
     print(message.topic)
     print("--------------\n\n")
-    data = json.dumps(message.payload)
-    if data["water_flow_status"] == "on":
+    data = json.dumps(message)
+    print(data.payload)
+    if data.payload["water_flow_status"] == "on":
         yellowOn()
-    elif data["water_flow_status"] == "off":
+    elif data.payload["water_flow_status"] == "off":
         yellowOff()
 
 
