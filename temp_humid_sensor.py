@@ -7,6 +7,7 @@ import argparse
 import json
 import uuid
 import datetime
+import RPi.GPIO as GPIO
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
