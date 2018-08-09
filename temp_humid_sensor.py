@@ -85,6 +85,10 @@ Use the format: color on/color off""")
 # Custom MQTT message callback
 def waterFlowControl(client, userdata, message):
     print("Received a new message: ")
+    if message.value == "on":
+        yellowOn()
+    else if message.value == "off":
+        yellowOff()
     print(message.payload)
     print("from topic: ")
     print(message.topic)
@@ -170,6 +174,7 @@ time.sleep(2)
 loopCount = 0
 while True:
     yellowOn()
+    yellowOff()
     ts = time.time()
     humidity, temperature = Adafruit_DHT.read_retry(11, 4)
     if args.mode == 'both' or args.mode == 'publish':
