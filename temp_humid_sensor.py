@@ -168,6 +168,7 @@ myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 myAWSIoTMQTTClient.connect()
 if args.mode == 'both' or args.mode == 'subscribe':
     myAWSIoTMQTTClient.subscribe("water_flow_status", 1, waterFlowControl)
+    # if water_flow_status = on, valve_on_function else valve_off_function
 time.sleep(2)
 
 # Publish to the same topic in a loop forever
